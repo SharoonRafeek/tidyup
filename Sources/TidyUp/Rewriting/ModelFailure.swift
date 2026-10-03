@@ -8,6 +8,7 @@ enum ModelFailure {
     case other
 
     init(_ error: Error) {
+        #if compiler(>=6.4)
         if #available(macOS 27.0, *), let error = error as? LanguageModelError {
             switch error {
             case .contextSizeExceeded: self = .contextOverflow
@@ -17,6 +18,7 @@ enum ModelFailure {
             }
             return
         }
+        #endif
         self = Self.legacy(error)
     }
 
