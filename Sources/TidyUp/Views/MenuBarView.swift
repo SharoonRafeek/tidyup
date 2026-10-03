@@ -22,20 +22,7 @@ struct MenuBarView: View {
                 AppleIntelligenceSetupView(model: model)
                     .padding(14)
             }
-            if showsStatus {
-                Divider()
-                Text(model.statusMessage)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 10)
-            }
         }
-    }
-
-    private var showsStatus: Bool {
-        !model.statusMessage.isEmpty && (model.modelStatus == .ready || !model.isEnabled)
     }
 
     private var headerRow: some View {

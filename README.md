@@ -21,7 +21,16 @@ TidyUp is a macOS menu bar app that rewrites selected text with Apple's on-devic
 
 Get the latest DMG from [Releases](https://github.com/SharoonRafeek/tidyup/releases/latest), open it, and drag TidyUp to Applications.
 
-Releases are ad-hoc signed, so macOS blocks the first launch. Right-click TidyUp in Applications and choose **Open**, or allow it under **System Settings → Privacy & Security**.
+Releases aren't notarized by Apple yet, so macOS blocks the first launch with "Apple could not verify TidyUp". To open it:
+
+1. Click **Done** on the warning.
+2. Open **System Settings → Privacy & Security**, scroll down to the message about TidyUp, and click **Open Anyway**.
+
+Or remove the quarantine flag in Terminal:
+
+```bash
+xattr -dr com.apple.quarantine /Applications/TidyUp.app
+```
 
 ## Requirements
 
