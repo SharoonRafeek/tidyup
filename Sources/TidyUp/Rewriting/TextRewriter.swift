@@ -67,12 +67,20 @@ actor TextRewriter {
         let session = LanguageModelSession(model: model, transcript: Self.transcript(for: mode))
         let response = try await session.respond(
             to: Self.prompt(for: body, strict: strict),
-            options: GenerationOptions(samplingMode: .greedy, maximumResponseTokens: body.count + 200)
+            options: Self.options(maximumResponseTokens: body.count + 200)
         )
         var text = RewriteValidator.sanitize(response.content, original: body)
         text = ProtectedSpans.restore(in: text, from: body)
         text = CasePreserver.restore(in: text, from: body, onlyDeliberateCase: mode == .clean)
         return text
+    }
+
+    private static func options(maximumResponseTokens: Int) -> GenerationOptions {
+        #if compiler(>=6.4)
+        GenerationOptions(samplingMode: .greedy, maximumResponseTokens: maximumResponseTokens)
+        #else
+        GenerationOptions(sampling: .greedy, maximumResponseTokens: maximumResponseTokens)
+        #endif
     }
 
     private static func prompt(for text: String, strict: Bool) -> String {
