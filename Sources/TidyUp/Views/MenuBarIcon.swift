@@ -9,7 +9,7 @@ enum MenuBarIcon {
             return true
         }
         image.isTemplate = true
-        image.accessibilityDescription = enabled ? "Tidy" : "Tidy paused"
+        image.accessibilityDescription = enabled ? "TidyUp" : "TidyUp paused"
         return image
     }
 

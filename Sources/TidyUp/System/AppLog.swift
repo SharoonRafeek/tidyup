@@ -2,7 +2,7 @@ import Foundation
 import OSLog
 
 enum AppLog {
-    private static let logger = Logger(subsystem: "com.sharoonrafeek.tidy", category: "runtime")
+    private static let logger = Logger(subsystem: "com.sharoonrafeek.tidyup", category: "runtime")
 
     static func info(_ message: String) {
         logger.info("\(message, privacy: .public)")

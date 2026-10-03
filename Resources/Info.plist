@@ -5,23 +5,23 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
-    <string>Tidy</string>
+    <string>TidyUp</string>
     <key>CFBundleExecutable</key>
-    <string>Tidy</string>
+    <string>TidyUp</string>
     <key>CFBundleIconFile</key>
-    <string>Tidy</string>
+    <string>TidyUp</string>
     <key>CFBundleIconName</key>
-    <string>Tidy</string>
+    <string>TidyUp</string>
     <key>CFBundleIdentifier</key>
-    <string>com.sharoonrafeek.tidy</string>
+    <string>com.sharoonrafeek.tidyup</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>Tidy</string>
+    <string>TidyUp</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0</string>
+    <string>1.0.0</string>
     <key>CFBundleVersion</key>
     <string>1</string>
     <key>LSMinimumSystemVersion</key>

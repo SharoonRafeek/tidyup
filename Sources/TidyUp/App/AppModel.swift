@@ -9,7 +9,7 @@ final class AppModel: ObservableObject {
         didSet {
             defaults.set(isEnabled, forKey: Keys.isEnabled)
             statusMessage = isEnabled ? modelStatus.message : "Paused. Hotkey is disabled."
-            AppLog.info(isEnabled ? "Tidy enabled." : "Tidy disabled.")
+            AppLog.info(isEnabled ? "TidyUp enabled." : "TidyUp disabled.")
         }
     }
     @Published var mode: FixMode {
@@ -63,7 +63,7 @@ final class AppModel: ObservableObject {
     func triggerFixSelectedText() {
         guard isEnabled else {
             statusMessage = "Paused. Hotkey is disabled."
-            AppLog.info("Hotkey ignored because Tidy is disabled.")
+            AppLog.info("Hotkey ignored because TidyUp is disabled.")
             return
         }
 

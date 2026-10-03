@@ -2,7 +2,7 @@ import AppKit
 import SwiftUI
 
 @main
-struct TidyApp: App {
+struct TidyUpApp: App {
     @StateObject private var model = AppModel.shared
 
     init() {
@@ -21,7 +21,7 @@ struct TidyApp: App {
         }
         .menuBarExtraStyle(.window)
 
-        Window("Tidy Settings", id: "settings") {
+        Window("TidyUp Settings", id: "settings") {
             SettingsView(model: model)
         }
         .windowResizability(.contentSize)

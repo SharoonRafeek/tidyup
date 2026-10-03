@@ -1,21 +1,26 @@
 # Contributing
 
-Thanks for helping improve Tidy.
+Thanks for helping improve TidyUp.
 
 ## Development
 
 ```bash
 swift build
 swift test
-./scripts/build-app.sh && open build/Tidy.app
+./scripts/build-app.sh && open build/TidyUp.app
+./scripts/build-dmg.sh
 ```
 
 You need macOS 26 or newer and Xcode 26 or newer. Rewrites only run on an Apple Intelligence-compatible Mac, but the build and unit tests work without the model.
 
+## Branches
+
+Open pull requests against `main`. Merging `main` into `production` through a pull request publishes a new release.
+
 ## Guidelines
 
 - Keep pull requests focused on one change.
-- Add or update tests in `Tests/TidyTests` when you change rewrite logic (chunking, validation, protected spans, case handling).
+- Add or update tests in `Tests/TidyUpTests` when you change rewrite logic (chunking, validation, protected spans, case handling).
 - If you change prompts in `FixMode`, describe the inputs you tested in the pull request.
 - Never log selected text or rewrite output.
 - Run `swift build` and `swift test` before opening a pull request.

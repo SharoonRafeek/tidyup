@@ -14,5 +14,5 @@ jobs:
         run: swift build
       - name: Test
         run: swift test
-      - name: Build app bundle
-        run: ./scripts/build-app.sh
+      - name: Build DMG
+        run: ./scripts/build-dmg.sh

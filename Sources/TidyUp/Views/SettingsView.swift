@@ -7,7 +7,7 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section {
-                Toggle("Enable Tidy", isOn: $model.isEnabled)
+                Toggle("Enable TidyUp", isOn: $model.isEnabled)
             }
 
             Section("Modes") {

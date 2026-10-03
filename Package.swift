@@ -3,15 +3,15 @@
 import PackageDescription
 
 let package = Package(
-    name: "Tidy",
+    name: "TidyUp",
     platforms: [
         .macOS("26.0"),
     ],
     products: [
-        .executable(name: "Tidy", targets: ["Tidy"]),
+        .executable(name: "TidyUp", targets: ["TidyUp"]),
     ],
     targets: [
-        .executableTarget(name: "Tidy"),
-        .testTarget(name: "TidyTests", dependencies: ["Tidy"]),
+        .executableTarget(name: "TidyUp"),
+        .testTarget(name: "TidyUpTests", dependencies: ["TidyUp"]),
     ]
 )

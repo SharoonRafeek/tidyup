@@ -41,7 +41,7 @@ struct MenuBarView: View {
     private var headerRow: some View {
         HStack(alignment: .center, spacing: 10) {
             VStack(alignment: .leading, spacing: 3) {
-                Text("Tidy")
+                Text("TidyUp")
                     .font(.system(size: 16, weight: .semibold))
 
                 Text(model.isBusy ? "Working..." : model.hotKey.displayString)

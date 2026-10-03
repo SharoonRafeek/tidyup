@@ -1,7 +1,7 @@
 import Carbon
 import Foundation
 import Testing
-@testable import Tidy
+@testable import TidyUp
 
 struct HotKeyTests {
     @Test func standardShortcutDisplay() {

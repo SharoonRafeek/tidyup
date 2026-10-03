@@ -1,5 +1,5 @@
 import Testing
-@testable import Tidy
+@testable import TidyUp
 
 struct TextChunkerTests {
     @Test func shortTextStaysInOnePiece() {

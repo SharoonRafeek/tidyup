@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [production]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Test
+        run: swift test
+
+      - name: Determine version
+        id: version
+        run: echo "version=$(./scripts/next-version.sh)" >> "$GITHUB_OUTPUT"
+
+      - name: Build DMG
+        id: dmg
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: echo "path=$(./scripts/build-dmg.sh)" >> "$GITHUB_OUTPUT"
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          TARGET: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+        run: |
+          gh release create "v$VERSION" "${{ steps.dmg.outputs.path }}" \
+            --title "TidyUp $VERSION" \
+            --target "$TARGET" \
+            --generate-notes

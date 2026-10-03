@@ -50,12 +50,12 @@ enum AppleModelStatus: Equatable {
         switch self {
         case .ready: []
         case .unsupported:
-            ["Check Apple's requirements below. Tidy needs macOS 26 or later and an Apple Intelligence-compatible Mac.",
+            ["Check Apple's requirements below. TidyUp needs macOS 26 or later and an Apple Intelligence-compatible Mac.",
              "Availability also depends on your language and region. A model download cannot make an unsupported Mac eligible."]
         case .notEnabled, .modelNotReady, .unknown:
             ["Open System Settings and find Apple Intelligence & Siri (Siri on newer macOS versions). Enable Apple Intelligence if a switch is shown.",
              "Keep your Mac connected to Wi-Fi and power while macOS downloads and prepares the model. Check that you have free storage.",
-             "Leave Tidy open. It checks automatically and will show when the model is ready."]
+             "Leave TidyUp open. It checks automatically and will show when the model is ready."]
         }
     }
 }
