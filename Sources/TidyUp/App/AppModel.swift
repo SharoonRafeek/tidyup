@@ -8,7 +8,6 @@ final class AppModel: ObservableObject {
     @Published var isEnabled: Bool {
         didSet {
             defaults.set(isEnabled, forKey: Keys.isEnabled)
-            statusMessage = isEnabled ? modelStatus.message : "Paused. Hotkey is disabled."
             AppLog.info(isEnabled ? "TidyUp enabled." : "TidyUp disabled.")
         }
     }
@@ -26,7 +25,6 @@ final class AppModel: ObservableObject {
     @Published private(set) var hotKeyFailed = false
     @Published private(set) var modelStatus = AppleModelStatus.current
     @Published private(set) var isBusy = false
-    @Published private(set) var statusMessage = ""
 
     private let defaults = UserDefaults.standard
     private let clipboardService = ClipboardService()
@@ -38,15 +36,10 @@ final class AppModel: ObservableObject {
         isEnabled = defaults.object(forKey: Keys.isEnabled) as? Bool ?? true
         mode = FixMode(rawValue: defaults.string(forKey: Keys.mode) ?? "") ?? .humanify
         hotKey = defaults.data(forKey: Keys.hotKey).flatMap { try? JSONDecoder().decode(HotKey.self, from: $0) } ?? .standard
-        statusMessage = isEnabled ? modelStatus.message : "Paused. Hotkey is disabled."
     }
 
     func refreshModelStatus() {
-        let current = AppleModelStatus.current
-        if current != modelStatus, isEnabled, !isBusy {
-            statusMessage = current.message
-        }
-        modelStatus = current
+        modelStatus = AppleModelStatus.current
     }
 
     func registerHotKey() {
@@ -62,7 +55,6 @@ final class AppModel: ObservableObject {
 
     func triggerFixSelectedText() {
         guard isEnabled else {
-            statusMessage = "Paused. Hotkey is disabled."
             AppLog.info("Hotkey ignored because TidyUp is disabled.")
             return
         }
@@ -82,15 +74,13 @@ final class AppModel: ObservableObject {
     private func fixSelectedText() async {
         refreshModelStatus()
         guard case .ready = modelStatus else {
-            statusMessage = modelStatus.message
-            AppLog.error(statusMessage)
+            AppLog.error(modelStatus.message)
             return
         }
 
         isBusy = true
         defer { isBusy = false }
 
-        statusMessage = "Copying selected text..."
         AppLog.info("Hotkey triggered in \(mode.title) mode.")
         let snapshot = clipboardService.snapshot()
         KeyEventSender.copySelection()
@@ -99,13 +89,11 @@ final class AppModel: ObservableObject {
 
         guard !selectedText.isBlankForRewrite else {
             clipboardService.restore(snapshot)
-            statusMessage = "No text was copied from the current selection."
             AppLog.error("Clipboard copy produced no text.")
             return
         }
 
         AppLog.info("Captured \(selectedText.count) characters using clipboard copy.")
-        statusMessage = "Rewriting..."
 
         do {
             AppLog.info("Rewriting with Apple Intelligence on this Mac.")
@@ -113,12 +101,10 @@ final class AppModel: ObservableObject {
 
             if rewritten.trimmedForRewrite() == selectedText.trimmedForRewrite() {
                 clipboardService.restore(snapshot)
-                statusMessage = "Rewrite returned the same text."
                 AppLog.info("Rewrite produced no visible text changes.")
                 return
             }
 
-            statusMessage = "Replacing selected text..."
             if AccessibilityTextService.replaceSelectedText(with: rewritten) {
                 clipboardRestoreTask?.cancel()
                 clipboardService.restore(snapshot)
@@ -131,12 +117,10 @@ final class AppModel: ObservableObject {
                 scheduleClipboardRestore(snapshot)
             }
 
-            statusMessage = "Rewrite complete."
             AppLog.info("Rewrite complete. Output length: \(rewritten.count).")
         } catch {
             clipboardRestoreTask?.cancel()
             clipboardService.restore(snapshot)
-            statusMessage = "Rewrite failed: \(error.localizedDescription)"
             AppLog.error("Rewrite failed: \(error.localizedDescription)")
         }
     }
